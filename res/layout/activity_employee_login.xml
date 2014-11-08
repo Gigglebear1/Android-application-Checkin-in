@@ -19,13 +19,28 @@
         android:text="Check In" />
 
     <Button
-        android:id="@+id/TimeCardButton"
+        android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/CheckinButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="17dp"
+        android:text="Check out" />
+
+    <Button
+        android:id="@+id/TimeCardButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button1"
+        android:layout_centerHorizontal="true"
         android:onClick="TimeCardClick"
         android:text="Time Card" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TimeCardButton"
+        android:layout_centerHorizontal="true"
+        android:text="Logout" />
 
 </RelativeLayout>

@@ -16,27 +16,6 @@
         android:layout_marginTop="40dp"
         android:text="Job Title" />
 
-    <EditText
-        android:id="@+id/Qr_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView1"
-        android:layout_alignBottom="@+id/textView1"
-        android:layout_alignLeft="@+id/Fence_range"
-        android:layout_alignParentRight="true"
-        android:ems="10"
-        android:singleLine="true" />
-
-    <EditText
-        android:id="@+id/Job_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView4"
-        android:layout_alignBottom="@+id/textView4"
-        android:layout_toRightOf="@+id/textView2"
-        android:ems="10"
-        android:singleLine="true" />
-
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
@@ -46,19 +25,6 @@
         android:layout_marginTop="26dp"
         android:text="Qr Code Phrase" />
 
-    <EditText
-        android:id="@+id/Gps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView2"
-        android:layout_alignBottom="@+id/textView2"
-        android:layout_alignRight="@+id/Qr_code"
-        android:ems="10"
-        android:singleLine="true" >
-
-        <requestFocus />
-    </EditText>
-
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -66,18 +32,7 @@
         android:layout_alignLeft="@+id/textView1"
         android:layout_below="@+id/Qr_code"
         android:layout_marginTop="26dp"
-        android:text="Gps location" />
-
-    <EditText
-        android:id="@+id/Fence_range"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView3"
-        android:layout_alignBottom="@+id/textView3"
-        android:layout_alignLeft="@+id/AddJobButton"
-        android:ems="10"
-        android:inputType="number"
-        android:singleLine="true" />
+        android:text="Address" />
 
     <TextView
         android:id="@+id/textView3"
@@ -86,21 +41,7 @@
         android:layout_alignRight="@+id/textView1"
         android:layout_below="@+id/Gps"
         android:layout_marginTop="21dp"
-        android:text="GPS fince range" />
-
-    <ScrollView
-        android:id="@+id/scrollView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textView4"
-        android:layout_alignLeft="@+id/Job_title" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
-        </LinearLayout>
-    </ScrollView>
+        android:text="GPS fence range" />
 
     <ImageView
         android:id="@+id/qrCode"
@@ -110,16 +51,6 @@
         android:layout_toLeftOf="@+id/Gps"
         android:src="@drawable/abc_ab_bottom_solid_dark_holo"
         android:visibility="invisible" />
-
-    <Button
-        android:id="@+id/AddJobButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/checkBox1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="17dp"
-        android:onClick="addJobClick"
-        android:text="Add Job" />
 
     <EditText
         android:id="@+id/EmailIn"
@@ -138,7 +69,70 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView3"
         android:layout_below="@+id/textView3"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="53dp"
         android:text="E-mail QR code" />
+
+    <Button
+        android:id="@+id/AddJobButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/EmailIn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:onClick="addJobClick"
+        android:text="Add Job" />
+
+    <Button
+        android:id="@+id/VeiwJobSite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/EmailIn"
+        android:layout_centerHorizontal="true"
+        android:onClick="ViewJobSiteButtonClick"
+        android:text="View Job Site" />
+
+    <EditText
+        android:id="@+id/Qr_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView1"
+        android:layout_alignBottom="@+id/textView1"
+        android:layout_alignLeft="@+id/Gps"
+        android:ems="10"
+        android:singleLine="true" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/Job_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView4"
+        android:layout_alignBottom="@+id/textView4"
+        android:layout_alignLeft="@+id/Qr_code"
+        android:ems="10"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/Gps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView2"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_marginLeft="28dp"
+        android:layout_toRightOf="@+id/textView3"
+        android:ems="10"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/Fence_range"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_alignLeft="@+id/Gps"
+        android:ems="10"
+        android:inputType="number"
+        android:singleLine="true" />
 
 </RelativeLayout>

@@ -1,16 +1,49 @@
 package com.bryamie.clockinin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class EmployeeTimeCard extends ActionBarActivity {
-
+	private ListView lv;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_employee_time_card);
+		
+		double totalTime = 0.0;
+		lv = (ListView) findViewById(R.id.employeeTimeCard);
+
+        // Instanciating an array list (you don't need to do this, 
+        // you already have yours).
+        List<String> your_array_list = new ArrayList<String>();
+        
+        for(int i =0; i<20;i++){
+        	String istr = Integer.toString(i);
+	        your_array_list.add("time   "+ istr);
+	        totalTime += i;
+        }
+        your_array_list.add("Total Time wokered:   "+Double.toString(totalTime)+" Hrs");
+        
+        
+
+        // This is the array adapter, it takes the context of the activity as a 
+        // first parameter, the type of list view as a second parameter and your 
+        // array as a third parameter.
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                this, 
+                android.R.layout.simple_list_item_1,
+                your_array_list );
+
+        lv.setAdapter(arrayAdapter); 
+   
 	}
 
 	@Override

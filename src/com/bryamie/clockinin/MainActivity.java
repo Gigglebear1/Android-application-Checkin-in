@@ -1,8 +1,8 @@
 package com.bryamie.clockinin;
 
-import android.support.v7.app.ActionBarActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +23,11 @@ public class MainActivity extends ActionBarActivity {
     
     public void TempLoginClick(View view){
     	Intent intent = new Intent(this, EmployeeLogin.class);
+    	startActivity(intent);
+    }
+    
+    public void GPSClick(View view){
+    	Intent intent = new Intent(this, NewAccount.class);
     	startActivity(intent);
     }
 

@@ -42,6 +42,7 @@ public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 	      if (resultCode == RESULT_OK) {
 	         String contents = intent.getStringExtra("SCAN_RESULT");
 	         String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+	         
 	         // Handle successful scan
 	         if((contents.toString()).equals("checkin' in")){
 		         dialogBuilder = new AlertDialog.Builder(this);

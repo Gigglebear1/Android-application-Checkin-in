@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <fragment
+        class="com.google.android.gms.maps.SupportMapFragment"
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    
+    <Button
+	    android:id="@+id/btnFind"
+	    style="?android:attr/buttonStyleSmall"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignBottom="@+id/btnSave"
+	    android:layout_alignTop="@+id/btnSave"
+	    android:layout_toLeftOf="@+id/btnSave"
+	    android:onClick="@string/accept"
+	    android:text="Find" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/map"
+        android:text="Save" />
+
+    <EditText
+        android:id="@+id/editTextRadius"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/map"
+        android:layout_below="@+id/btnFind"
+        android:layout_toLeftOf="@+id/btnFind"
+        android:ems="10"
+        android:inputType="number"
+        android:text="Enter radius here" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/editTextAddr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btnSave"
+        android:layout_alignLeft="@+id/editTextRadius"
+        android:layout_toLeftOf="@+id/btnFind"
+        android:ems="10"
+        android:inputType="textPostalAddress"
+        android:text="Enter address here" />
+</LinearLayout>

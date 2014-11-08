@@ -24,8 +24,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/new_job_site"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
         android:onClick="ManageClick"
         android:text="Manage" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Manage"
+        android:layout_centerHorizontal="true"
+        android:text="Logout" />
 
 </RelativeLayout>

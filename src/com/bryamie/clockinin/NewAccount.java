@@ -1,36 +1,29 @@
 package com.bryamie.clockinin;
 
-import android.support.v7.app.ActionBarActivity;
-import android.content.Intent;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class ManagerManage extends ActionBarActivity {
+public class NewAccount extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_manager_manage);
+		setContentView(R.layout.activity_new_account);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.manager_manage, menu);
+		getMenuInflater().inflate(R.menu.new_account, menu);
 		return true;
 	}
 	
-	public void AddEmployeeClick(View view){
-    	Intent intent = new Intent(this, AddEmployee.class);
-    	startActivity(intent);
-    }
-	
-	public void DeleteEmployeeClick(View view){
-    	Intent intent = new Intent(this, DeleteEmployee.class);
-    	startActivity(intent);
-    }
+	public void MakeAccountClick(View view){
+		
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

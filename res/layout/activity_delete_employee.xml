@@ -12,9 +12,9 @@
         android:id="@+id/spinner1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="109dp" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
 
     <Button
         android:id="@+id/deleteButton"
@@ -22,7 +22,25 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/spinner1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="59dp"
+        android:onClick="DeleteClick"
         android:text="Delete" />
+
+    <ListView
+        android:id="@+id/employeeTimeCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/deleteButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="31dp" >
+    </ListView>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/deleteButton"
+        android:layout_centerHorizontal="true"
+        android:text="Current Employees For Job"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

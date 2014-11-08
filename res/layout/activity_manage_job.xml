@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.bryamie.clockinin.ManageJob" >
+
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="38dp" />
+
+    <Button
+        android:id="@+id/DeleteEmploee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner1"
+        android:layout_centerHorizontal="true"
+        android:onClick="DeleteEmployeeClick"
+        android:text="Delete Employee" />
+
+    <Button
+        android:id="@+id/addEmployee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/DeleteEmploee"
+        android:layout_centerHorizontal="true"
+        android:onClick="AddEmployeeClick"
+        android:text="Add Employee" />
+
+    <Button
+        android:id="@+id/editJob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addEmployee"
+        android:layout_centerHorizontal="true"
+        android:onClick="EditJobClick"
+        android:text="Edit Job Details" />
+
+    <Button
+        android:id="@+id/deleteJob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editJob"
+        android:layout_centerHorizontal="true"
+        android:onClick="DeleteJobClick"
+        android:text="Delete Job" />
+
+</RelativeLayout>

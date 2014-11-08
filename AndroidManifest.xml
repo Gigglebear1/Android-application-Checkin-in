@@ -5,81 +5,152 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="12"
+        android:minSdkVersion="15"
         android:targetSdkVersion="21" />
-    
-	<uses-permission android:name="android.permission.CAMERA" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-	
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <permission
+        android:name="com.bryamie.clockinin.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.bryamie.clockininn.permission.MAPS_RECEIVE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyCHsPICN5jA-56Ifzyie2lVCDqIQ80MU6g" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <uses-library android:name="com.google.android.maps" />
+
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-		<activity android:name="com.google.zxing.client.android.CaptureActivity"
-   android:screenOrientation="landscape"
-   android:configChanges="orientation|keyboardHidden"
-   android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-   android:windowSoftInputMode="stateAlwaysHidden">
-   <intent-filter>
-      <action android:name="android.intent.action.MAIN"/>
-      <category android:name="android.intent.category.DEFAULT"/>
-   </intent-filter>
-   <intent-filter>
-      <action android:name="com.google.zxing.client.android.SCAN"/>
-      <category android:name="android.intent.category.DEFAULT"/>
-    </intent-filter>
-</activity>
+        <activity
+            android:name="com.google.zxing.client.android.CaptureActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.google.zxing.client.android.SCAN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Manager_login"
-            android:label="@string/title_activity_activity2" >
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_activity2"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".NewJobSite"
-            android:label="@string/title_activity_new_job_site" >
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_new_job_site"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ManagerManage"
-            android:label="@string/title_activity_manager_manage" >
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_manager_manage"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".JobSite_QR"
-            android:label="@string/title_activity_job_site__qr" >
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_job_site__qr"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".AddEmployee"
-            android:label="@string/title_activity_edit_mployee" >
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_edit_mployee"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".DeleteEmployee"
-            android:label="@string/title_activity_delete_employee" >
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_delete_employee"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".QrSite"
-            android:label="@string/title_activity_qr_site" >
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_qr_site"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".EmployeeLogin"
-            android:label="@string/title_activity_employee_login" >
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_employee_login"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".EmployeeTimeCard"
-            android:label="@string/title_activity_employee_time_card" >
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_employee_time_card"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".EmploeeCheckin"
-            android:label="@string/title_activity_emploee_checkin" >
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_emploee_checkin"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".GPS2"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_gps2"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".NewAccount"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_new_account"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ManageJob"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_manage_job"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".EditJob"
+            android:label="@string/title_activity_edit_job" 
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

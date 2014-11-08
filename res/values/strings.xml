@@ -15,5 +15,10 @@
     <string name="title_activity_employee_login">EmployeeLogin</string>
     <string name="title_activity_employee_time_card">EmployeeTimeCard</string>
     <string name="title_activity_emploee_checkin">EmploeeCheckin</string>
+    <string name="title_activity_gps">GPS</string>
+    <string name="title_activity_gps2">GPS2</string>
+    <string name="title_activity_new_account">NewAccount</string>
+    <string name="title_activity_manage_job">ManageJob</string>
+    <string name="title_activity_edit_job">EditJob</string>
 
 </resources>

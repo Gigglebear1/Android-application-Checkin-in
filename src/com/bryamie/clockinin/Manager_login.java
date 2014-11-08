@@ -28,7 +28,7 @@ public class Manager_login extends ActionBarActivity {
     }
 	
 	public void ManageClick(View view){
-    	Intent intent = new Intent(this, ManagerManage.class);
+    	Intent intent = new Intent(this, ManageJob.class);
     	startActivity(intent);
     }
 
