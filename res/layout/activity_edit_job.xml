@@ -63,34 +63,6 @@
         android:inputType="textEmailAddress"
         android:singleLine="true" />
 
-    <CheckBox
-        android:id="@+id/checkBox1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView3"
-        android:layout_below="@+id/textView3"
-        android:layout_marginTop="53dp"
-        android:text="E-mail QR code" />
-
-    <Button
-        android:id="@+id/AddJobButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/EmailIn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:onClick="addJobClick"
-        android:text="Save" />
-
-    <Button
-        android:id="@+id/VeiwJobSite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/EmailIn"
-        android:layout_centerHorizontal="true"
-        android:onClick="ViewJobSiteButtonClick"
-        android:text="View Job Site" />
-
     <EditText
         android:id="@+id/Qr_code"
         android:layout_width="wrap_content"
@@ -134,5 +106,81 @@
         android:ems="10"
         android:inputType="number"
         android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/time_to"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Fence_range"
+        android:layout_toRightOf="@+id/VeiwJobSite"
+        android:ems="10"
+        android:inputType="time" />
+
+    <EditText
+        android:id="@+id/time_from"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/time_to"
+        android:layout_alignBottom="@+id/time_to"
+        android:layout_alignLeft="@+id/Fence_range"
+        android:layout_toLeftOf="@+id/time_to"
+        android:ems="10"
+        android:inputType="time" />
+
+    <EditText
+        android:id="@+id/dateOfJob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/time_from"
+        android:layout_below="@+id/time_from"
+        android:ems="10"
+        android:inputType="date" />
+
+    <Button
+        android:id="@+id/AddJobButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/EmailIn"
+        android:layout_centerHorizontal="true"
+        android:onClick="saveJobClick"
+        android:text="Save Job" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/dateOfJob"
+        android:layout_alignBottom="@+id/dateOfJob"
+        android:layout_alignLeft="@+id/textView5"
+        android:text="Date\n (MM/DD/YYYY)"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/dateOfJob"
+        android:layout_alignLeft="@+id/textView3"
+        android:text="Time From-To\n (milt time)"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <CheckBox
+        android:id="@+id/checkBox1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView6"
+        android:layout_below="@+id/VeiwJobSite"
+        android:layout_marginTop="17dp"
+        android:text="E-mail QR code" />
+
+    <Button
+        android:id="@+id/VeiwJobSite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView6"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:onClick="ViewJobSiteButtonClick"
+        android:text="View Job Site" />
 
 </RelativeLayout>

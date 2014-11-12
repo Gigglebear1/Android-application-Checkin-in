@@ -12,7 +12,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText2"
+        android:layout_below="@+id/Time_from"
         android:layout_centerHorizontal="true"
         android:text="Email"
         android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -21,7 +21,7 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText1"
+        android:layout_below="@+id/Time_to"
         android:layout_centerHorizontal="true"
         android:text="Name"
         android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -30,18 +30,18 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText2"
+        android:layout_alignLeft="@+id/Time_from"
         android:layout_below="@+id/textView2"
         android:layout_marginTop="21dp"
         android:text="I am a"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/Time_to"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/editText3"
+        android:layout_alignRight="@+id/dateOfEvent"
         android:ems="10"
         android:inputType="textPersonName" >
 
@@ -60,7 +60,7 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText3"
+        android:layout_below="@+id/dateOfEvent"
         android:layout_centerHorizontal="true"
         android:text="Password"
         android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -76,7 +76,7 @@
         android:text="Make Account" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/Time_from"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView1"
@@ -94,7 +94,7 @@
     </RadioGroup>
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/dateOfEvent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView3"
@@ -128,7 +128,7 @@
         android:id="@+id/editText4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText3"
+        android:layout_alignLeft="@+id/dateOfEvent"
         android:layout_below="@+id/textView4"
         android:layout_marginTop="20dp"
         android:ems="10" />

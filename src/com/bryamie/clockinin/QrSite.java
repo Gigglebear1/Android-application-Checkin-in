@@ -3,6 +3,8 @@ package com.bryamie.clockinin;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.EnumMap;
 import java.util.List;
 
@@ -16,6 +18,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
+import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,12 +37,12 @@ import com.google.zxing.qrcode.QRCodeWriter;
 
 public class QrSite extends ActionBarActivity {
 
-	private AlertDialog.Builder dialogBuilder;
+private AlertDialog.Builder dialogBuilder;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_qr_site);
+		setContentView(R.layout.activity_edit_job);
 	}
 
 	@Override
@@ -90,7 +94,7 @@ public class QrSite extends ActionBarActivity {
 			return null;
     }
 	
-	public void emailQr(Bitmap bitmap,String emailString,String jobName,String address,String fenceRange){
+	public void emailQr(Bitmap bitmap,String emailString,String jobName,String address,String fenceRange,String date,String timeFrom,String timeTo){
 		//save bit image as a file
 		String root = Environment.getExternalStorageDirectory().toString();
 		File myDir = new File(root + "/req_images");
@@ -116,14 +120,22 @@ public class QrSite extends ActionBarActivity {
        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{emailString});
        i.putExtra(Intent.EXTRA_SUBJECT, " Checkin' in QrCode");
        i.putExtra(Intent.EXTRA_TEXT   , "Job Tilte: "+jobName+"\n"
+    		   							+"Date: " + date+"\n"
+    		   							+"Time: "+timeFrom+" to "+timeTo+"\n"
     		   							+"Address: "+ address +"\n"
     		   							+"GPS fence Range: "+fenceRange + "\n");
        i.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));//pngFile 
 
            startActivity(Intent.createChooser(i, "Send mail..."));
 	}
+	
+	boolean isLegalDate(String s) {
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	    sdf.setLenient(false);
+	    return sdf.parse(s, new ParsePosition(0)) != null;
+	}
 	 	
-	public void addJobClick(View view){
+	public void saveJobClick(View view){
 		EditText QR_string;
 		Bitmap QrCode;
 		EditText email;
@@ -140,19 +152,134 @@ public class QrSite extends ActionBarActivity {
 		String gpsrange = range.getText().toString();
 		EditText jobText = (EditText)findViewById(R.id.Job_title);
 		String jobTitle = jobText.getText().toString();
+		EditText dateofEvent = (EditText)findViewById(R.id.dateOfJob);
+		String date = dateofEvent.getText().toString();
+		EditText timeText = (EditText)findViewById(R.id.time_from);
+		String timeFrom = timeText.getText().toString();
+		EditText timeText2 = (EditText)findViewById(R.id.time_to);
+		String timeTo = timeText2.getText().toString();
+		
+		
 		
 		
 		//get the string and then encode it 
 		QR_string   = (EditText)findViewById(R.id.Qr_code);
 		
 		//make sure all info is filled in 
-		if(!QR_string.getText().toString().equals("")){
+		if(!TextUtils.isEmpty(QR_string.getText().toString()) && !TextUtils.isEmpty(addrstr) && !TextUtils.isEmpty(gpsrange) && !TextUtils.isEmpty(jobTitle) && !TextUtils.isEmpty(date) &&
+				!TextUtils.isEmpty(timeFrom) && !TextUtils.isEmpty(timeTo) && !TextUtils.isEmpty(gpsrange)){
+			
 			QrCode = encode(QR_string.getText().toString());
 			final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox1);
 			
+			//check date is in correct format
+			Boolean DateFlag = true;
+			String[] dateElement = date.split("/");
+			
+			try{
+				if (dateElement[0].length() !=2)
+					DateFlag = false;
+				if (dateElement[1].length() !=2)
+					DateFlag = false;
+				if (dateElement[2].length() !=4)
+					DateFlag = false;
+			}
+			catch(Throwable e){
+				Toast.makeText(getBaseContext()," Invaild Date Format", Toast.LENGTH_LONG).show();
+				return;
+			}
+			//check to see if valid date
+			String inputDate = dateElement[2] + "-" + dateElement[0] + "-" + dateElement[1];
+			Boolean isVaildDay = isLegalDate(inputDate);
+			
+			
+			//make sure that date has not passed
+			Boolean passedDate = false; 
+			Time today = new Time(Time.getCurrentTimezone());
+			today.setToNow();
+			int todayDay = today.monthDay;           // Day of the month (1-31)
+			int todayMonth = today.month;               // Month (0-11)
+			int todayYear = today.year;              // Year 
+			
+			int inputDay = Integer.parseInt(dateElement[0]);
+			int inputMonth = Integer.parseInt(dateElement[1]);
+			int inputYear = Integer.parseInt(dateElement[2]);
+			
+			if (inputYear < todayYear){
+				passedDate = true;
+			}
+			else if(inputYear == todayYear && inputMonth < todayMonth){
+				passedDate = true;
+			}
+			else if(inputYear == todayYear && inputMonth == todayMonth && inputDay < todayDay){
+				passedDate = true;
+			}
+			
+			if(!DateFlag){
+				 Toast.makeText(getBaseContext()," Invaild Date Format", Toast.LENGTH_LONG).show();
+				 return;
+			}
+			
+			if (passedDate){
+				 Toast.makeText(getBaseContext()," This date is passed", Toast.LENGTH_LONG).show();
+				 return;
+			}
+			
+			if(!isVaildDay){
+				 Toast.makeText(getBaseContext()," Invaild Date", Toast.LENGTH_LONG).show();
+				 return;
+			}
+			
+			
+			//time validate check
+			
+			try{
+				Integer.parseInt(timeFrom);
+				Integer.parseInt(timeTo);
+			}
+			catch(Throwable e ){
+				 Toast.makeText(getBaseContext()," Invaild Time format\n milt time = ####", Toast.LENGTH_LONG).show();
+				 return;
+			}
+			
+			Boolean fromFlag = true;
+			Boolean toFlag = true;
+			Boolean timeWrong = false;
+			if(Integer.parseInt(timeFrom) <= 0000 || Integer.parseInt(timeFrom) > 2400)
+				fromFlag = false;
+			if(Integer.parseInt(timeTo) <= 0000 || Integer.parseInt(timeTo) > 2400)
+				toFlag = false;
+			if(Integer.parseInt(timeTo) <= Integer.parseInt(timeFrom)){
+				timeWrong = true;
+			}
+			
+			if(!fromFlag){
+				Toast.makeText(getBaseContext(),"From time is incorrect time format", Toast.LENGTH_LONG).show();
+				return;
+			}
+			if(!toFlag){
+				Toast.makeText(getBaseContext(),"To time is incorrect time format", Toast.LENGTH_LONG).show();
+				return;
+			}
+			if(timeWrong){
+				Toast.makeText(getBaseContext(),"From time is larger that To time", Toast.LENGTH_LONG).show();
+				return;
+				}
+			
+			
 			if (checkBox.isChecked()) {
-				emailQr(QrCode,emailString,jobTitle,addrstr,gpsrange);
+				emailQr(QrCode,emailString,jobTitle,addrstr,gpsrange,date,timeFrom,timeTo);
 			} 
+			
+			
+			/*all is validated ship to data bases
+			 * put stuff here
+			 * 
+			 * 
+			 * 
+			 * 
+			 */
+			
 		}
 		else{
 			//make the qr invisable
@@ -251,6 +378,7 @@ public class QrSite extends ActionBarActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
 
 	
 }
