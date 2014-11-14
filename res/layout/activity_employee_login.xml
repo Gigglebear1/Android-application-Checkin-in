@@ -19,7 +19,7 @@
         android:text="Check In" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/view_timeCards"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/CheckinButton"
@@ -30,7 +30,7 @@
         android:id="@+id/TimeCardButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button1"
+        android:layout_below="@+id/view_timeCards"
         android:layout_centerHorizontal="true"
         android:onClick="TimeCardClick"
         android:text="Time Card" />

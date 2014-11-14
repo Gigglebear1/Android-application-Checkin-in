@@ -20,5 +20,8 @@
     <string name="title_activity_new_account">NewAccount</string>
     <string name="title_activity_manage_job">ManageJob</string>
     <string name="title_activity_edit_job">EditJob</string>
+    <string name="title_activity_time_cards">TimeCards</string>
+    <string name="title_activity_manage_employee">ManageEmployee</string>
+    <string name="title_activity_dispatch">DispatchActivity</string>
 
 </resources>

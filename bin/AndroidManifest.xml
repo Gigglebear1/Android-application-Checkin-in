@@ -44,13 +44,9 @@
         <activity
             android:name=".MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/app_name"
+            android:label="Main Login"
             android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+           
         </activity>
         <activity
             android:name="com.google.zxing.client.android.CaptureActivity"
@@ -69,6 +65,17 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        
+         <activity android:name=".DispatchActivity"
+            android:label="Checkin' in">
+             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>>
+        </activity>
+        
+         
         <activity
             android:name=".Manager_login"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -149,9 +156,20 @@
         </activity>
         <activity
             android:name=".EditJob"
-            android:label="@string/title_activity_edit_job" 
+            android:label="@string/title_activity_edit_job"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".TimeCards"
+            android:label="@string/title_activity_time_cards"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ManageEmployee"
+            android:label="@string/title_activity_manage_employee"
+            android:screenOrientation="portrait" >
+        </activity>
+       
     </application>
 
 </manifest>

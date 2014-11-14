@@ -28,11 +28,12 @@
         android:text="Manage" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/view_timeCards"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Manage"
         android:layout_centerHorizontal="true"
+        android:onClick="LogOutClick"
         android:text="Logout" />
 
 </RelativeLayout>

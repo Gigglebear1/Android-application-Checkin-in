@@ -23,7 +23,7 @@
         android:layout_below="@+id/spinner1"
         android:layout_centerHorizontal="true"
         android:onClick="DeleteEmployeeClick"
-        android:text="Delete Employee" />
+        android:text="Delete Employee from Job" />
 
     <Button
         android:id="@+id/addEmployee"
@@ -32,7 +32,7 @@
         android:layout_below="@+id/DeleteEmploee"
         android:layout_centerHorizontal="true"
         android:onClick="AddEmployeeClick"
-        android:text="Add Employee" />
+        android:text="Add Employee to Job" />
 
     <Button
         android:id="@+id/editJob"
@@ -51,5 +51,24 @@
         android:layout_centerHorizontal="true"
         android:onClick="DeleteJobClick"
         android:text="Delete Job" />
+
+    <Button
+        android:id="@+id/view_timeCards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/deleteJob"
+        android:layout_centerHorizontal="true"
+        android:onClick="TimeCardClick"
+        android:text="View Time Cards" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="48dp"
+        android:onClick="EditEmployee"
+        android:text="Edit Employees" />
 
 </RelativeLayout>

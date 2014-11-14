@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.EnumMap;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,7 +44,7 @@ private AlertDialog.Builder dialogBuilder;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_edit_job);
+		setContentView(R.layout.activity_qr_site);
 	}
 
 	@Override
@@ -169,7 +171,7 @@ private AlertDialog.Builder dialogBuilder;
 		if(!TextUtils.isEmpty(QR_string.getText().toString()) && !TextUtils.isEmpty(addrstr) && !TextUtils.isEmpty(gpsrange) && !TextUtils.isEmpty(jobTitle) && !TextUtils.isEmpty(date) &&
 				!TextUtils.isEmpty(timeFrom) && !TextUtils.isEmpty(timeTo) && !TextUtils.isEmpty(gpsrange)){
 			
-			QrCode = encode(QR_string.getText().toString());
+			
 			final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox1);
 			
 			//check date is in correct format
@@ -193,45 +195,7 @@ private AlertDialog.Builder dialogBuilder;
 			Boolean isVaildDay = isLegalDate(inputDate);
 			
 			
-			//make sure that date has not passed
-			Boolean passedDate = false; 
-			Time today = new Time(Time.getCurrentTimezone());
-			today.setToNow();
-			int todayDay = today.monthDay;           // Day of the month (1-31)
-			int todayMonth = today.month;               // Month (0-11)
-			int todayYear = today.year;              // Year 
-			
-			int inputDay = Integer.parseInt(dateElement[0]);
-			int inputMonth = Integer.parseInt(dateElement[1]);
-			int inputYear = Integer.parseInt(dateElement[2]);
-			
-			if (inputYear < todayYear){
-				passedDate = true;
-			}
-			else if(inputYear == todayYear && inputMonth < todayMonth){
-				passedDate = true;
-			}
-			else if(inputYear == todayYear && inputMonth == todayMonth && inputDay < todayDay){
-				passedDate = true;
-			}
-			
-			if(!DateFlag){
-				 Toast.makeText(getBaseContext()," Invaild Date Format", Toast.LENGTH_LONG).show();
-				 return;
-			}
-			
-			if (passedDate){
-				 Toast.makeText(getBaseContext()," This date is passed", Toast.LENGTH_LONG).show();
-				 return;
-			}
-			
-			if(!isVaildDay){
-				 Toast.makeText(getBaseContext()," Invaild Date", Toast.LENGTH_LONG).show();
-				 return;
-			}
-			
-			
-			//time validate check
+//time validate check
 			
 			try{
 				Integer.parseInt(timeFrom);
@@ -245,9 +209,9 @@ private AlertDialog.Builder dialogBuilder;
 			Boolean fromFlag = true;
 			Boolean toFlag = true;
 			Boolean timeWrong = false;
-			if(Integer.parseInt(timeFrom) <= 0000 || Integer.parseInt(timeFrom) > 2400)
+			if(Integer.parseInt(timeFrom) <= 0000 || Integer.parseInt(timeFrom) > 2400 ||Integer.parseInt(timeFrom)%100 > 59 )
 				fromFlag = false;
-			if(Integer.parseInt(timeTo) <= 0000 || Integer.parseInt(timeTo) > 2400)
+			if(Integer.parseInt(timeTo) <= 0000 || Integer.parseInt(timeTo) > 2400 || Integer.parseInt(timeTo)%100 > 59)
 				toFlag = false;
 			if(Integer.parseInt(timeTo) <= Integer.parseInt(timeFrom)){
 				timeWrong = true;
@@ -267,9 +231,83 @@ private AlertDialog.Builder dialogBuilder;
 				}
 			
 			
+			//make sure that date has not passed
+			Boolean passedDate = false; 
+			Time today = new Time(Time.getCurrentTimezone());
+			today.setToNow();
+			int todayDay = today.monthDay;           // Day of the month (1-31)
+			int todayMonth = today.month+1;               // Month (0-11)
+			int todayYear = today.year;              // Year 
+			
+			int inputDay = Integer.parseInt(dateElement[1]);
+			int inputMonth = Integer.parseInt(dateElement[0]);
+			int inputYear = Integer.parseInt(dateElement[2]);
+			
+			
+			if (inputYear < todayYear){
+				passedDate = true;
+			}
+			else if(inputYear == todayYear && inputMonth < todayMonth){
+				passedDate = true;
+			}
+			else if(inputYear == todayYear && inputMonth == todayMonth && inputDay < todayDay){
+				passedDate = true;
+			}
+			else if (inputYear == todayYear && inputMonth == todayMonth && inputDay == todayDay ){
+				SimpleDateFormat df = new SimpleDateFormat("h:mm a");
+				String currTime = df.format(Calendar.getInstance().getTime());
+				String[] ampm = currTime.split(" ");
+				String[] parts= ampm[0].split(":");
+				int miltTime;
+				if (ampm[1] == "AM"){
+					miltTime = Integer.parseInt(parts[0])*100 + Integer.parseInt(parts[1]);
+				}
+				else{
+					miltTime = Integer.parseInt(parts[0])*100 + Integer.parseInt(parts[1]) + 1200;
+				}
+				if (Integer.parseInt(timeTo) < miltTime){
+					passedDate = true;
+				}
+			}
+		
+			if(!DateFlag){
+				 Toast.makeText(getBaseContext()," Invaild Date Format", Toast.LENGTH_LONG).show();
+				 return;
+			}
+			
+			if (passedDate){
+				 Toast.makeText(getBaseContext()," This date is passed", Toast.LENGTH_LONG).show();
+				 return;
+			}
+			
+			if(!isVaildDay){
+				 Toast.makeText(getBaseContext()," Invaild Date", Toast.LENGTH_LONG).show();
+				 return;
+			}
+			
+			
+			
+			
+			
+			
+			
 			if (checkBox.isChecked()) {
-				emailQr(QrCode,emailString,jobTitle,addrstr,gpsrange,date,timeFrom,timeTo);
+				if (!TextUtils.isEmpty(emailString)){
+						QrCode = encode(QR_string.getText().toString());
+						emailQr(QrCode,emailString,jobTitle,addrstr,gpsrange,date,timeFrom,timeTo);
+				}
+				else{
+					Toast.makeText(getBaseContext(),"No Email provided", Toast.LENGTH_LONG).show();
+					return;
+				}
 			} 
+			else{
+				QrCode = encode(QR_string.getText().toString());
+			}
+			
+			
+			
+			
 			
 			
 			/*all is validated ship to data bases

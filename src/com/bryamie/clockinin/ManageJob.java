@@ -75,11 +75,22 @@ public class ManageJob extends Activity {
     	Intent intent = new Intent(this, AddEmployee.class);
     	startActivity(intent);
     }
+	
+	public void TimeCardClick(View view){
+    	Intent intent = new Intent(this, TimeCards.class);
+    	startActivity(intent);
+    }
 
 	public void DeleteEmployeeClick(View view){
     	Intent intent = new Intent(this, DeleteEmployee.class);
     	startActivity(intent);
     }
+	
+	public void EditEmployee(View view){
+    	Intent intent = new Intent(this, ManageEmployee.class);
+    	startActivity(intent);
+    }
+	
 
 
 	@Override

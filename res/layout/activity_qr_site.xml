@@ -143,7 +143,7 @@
         android:layout_below="@+id/EmailIn"
         android:layout_centerHorizontal="true"
         android:onClick="saveJobClick"
-        android:text="Save Job" />
+        android:text="Create Job" />
 
     <TextView
         android:id="@+id/textView6"

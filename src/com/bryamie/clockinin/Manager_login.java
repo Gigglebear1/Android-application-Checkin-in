@@ -1,11 +1,13 @@
 package com.bryamie.clockinin;
 
-import android.support.v7.app.ActionBarActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.parse.ParseUser;
 
 public class Manager_login extends ActionBarActivity {
 
@@ -29,6 +31,11 @@ public class Manager_login extends ActionBarActivity {
 	
 	public void ManageClick(View view){
     	Intent intent = new Intent(this, ManageJob.class);
+    	startActivity(intent);
+    }
+	public void LogOutClick(View view){
+		ParseUser.logOut();
+		Intent intent = new Intent(this, MainActivity.class);
     	startActivity(intent);
     }
 

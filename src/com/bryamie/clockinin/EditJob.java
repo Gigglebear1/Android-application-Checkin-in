@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.EnumMap;
 import java.util.List;
 
@@ -174,7 +175,7 @@ public class EditJob extends ActionBarActivity {
 		if(!TextUtils.isEmpty(QR_string.getText().toString()) && !TextUtils.isEmpty(addrstr) && !TextUtils.isEmpty(gpsrange) && !TextUtils.isEmpty(jobTitle) && !TextUtils.isEmpty(date) &&
 				!TextUtils.isEmpty(timeFrom) && !TextUtils.isEmpty(timeTo) && !TextUtils.isEmpty(gpsrange)){
 			
-			QrCode = encode(QR_string.getText().toString());
+			
 			
 			final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox1);
 			
@@ -204,12 +205,13 @@ public class EditJob extends ActionBarActivity {
 			Time today = new Time(Time.getCurrentTimezone());
 			today.setToNow();
 			int todayDay = today.monthDay;           // Day of the month (1-31)
-			int todayMonth = today.month;               // Month (0-11)
+			int todayMonth = today.month+1;               // Month (0-11)
 			int todayYear = today.year;              // Year 
 			
-			int inputDay = Integer.parseInt(dateElement[0]);
-			int inputMonth = Integer.parseInt(dateElement[1]);
+			int inputDay = Integer.parseInt(dateElement[1]);
+			int inputMonth = Integer.parseInt(dateElement[0]);
 			int inputYear = Integer.parseInt(dateElement[2]);
+			
 			
 			if (inputYear < todayYear){
 				passedDate = true;
@@ -220,7 +222,23 @@ public class EditJob extends ActionBarActivity {
 			else if(inputYear == todayYear && inputMonth == todayMonth && inputDay < todayDay){
 				passedDate = true;
 			}
-			
+			else if (inputYear == todayYear && inputMonth == todayMonth && inputDay == todayDay ){
+				SimpleDateFormat df = new SimpleDateFormat("h:mm a");
+				String currTime = df.format(Calendar.getInstance().getTime());
+				String[] ampm = currTime.split(" ");
+				String[] parts= ampm[0].split(":");
+				int miltTime;
+				if (ampm[1] == "AM"){
+					miltTime = Integer.parseInt(parts[0])*100 + Integer.parseInt(parts[1]);
+				}
+				else{
+					miltTime = Integer.parseInt(parts[0])*100 + Integer.parseInt(parts[1]) + 1200;
+				}
+				if (Integer.parseInt(timeTo) < miltTime){
+					passedDate = true;
+				}
+			}
+		
 			if(!DateFlag){
 				 Toast.makeText(getBaseContext()," Invaild Date Format", Toast.LENGTH_LONG).show();
 				 return;
@@ -274,8 +292,18 @@ public class EditJob extends ActionBarActivity {
 			
 			
 			if (checkBox.isChecked()) {
-				emailQr(QrCode,emailString,jobTitle,addrstr,gpsrange,date,timeFrom,timeTo);
+				if (!TextUtils.isEmpty(emailString)){
+						QrCode = encode(QR_string.getText().toString());
+						emailQr(QrCode,emailString,jobTitle,addrstr,gpsrange,date,timeFrom,timeTo);
+				}
+				else{
+					Toast.makeText(getBaseContext(),"No Email provided", Toast.LENGTH_LONG).show();
+					return;
+				}
 			} 
+			else{
+				QrCode = encode(QR_string.getText().toString());
+			}
 			
 			/*all is validated ship to data bases
 			 * put stuff here
