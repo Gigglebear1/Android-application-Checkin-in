@@ -1,15 +1,22 @@
 package com.bryamie.clockinin;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.ParseException;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.parse.LogInCallback;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity{
 	  
 	@Override
 	public void onBackPressed() {
@@ -21,14 +28,72 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
     }
     
-    public void nextListener(View view){
-    	Intent intent = new Intent(this, Manager_login.class);
-    	startActivity(intent);
-    }
+    public boolean isEmpty(EditText etText){
+		if (etText.getText().toString().trim().length() > 0){
+			return false;
+		}else{
+			return true;
+		}
+	}
     
-    public void TempLoginClick(View view){
-    	Intent intent = new Intent(this, EmployeeLogin.class);
-    	startActivity(intent);
+    
+    
+    public void LoginClick(View view){
+    	EditText userPassword = (EditText) findViewById(R.id.userPassword);
+    	EditText userName = (EditText) findViewById(R.id.userName);
+    	
+    	boolean validationError = false;
+		StringBuilder validationErrorMessage = new StringBuilder("Please ");
+		if(isEmpty(userName)){
+			validationError = true;
+			validationErrorMessage.append("enter a user name");
+		}
+		if (isEmpty(userPassword)){
+			if(validationError){
+				validationErrorMessage.append(" and ");
+			}
+			validationError = true;
+			validationErrorMessage.append("enter a password");
+		}
+		/*
+		if (isEmpty(userbuinessID)){
+			if(validationError){
+				validationErrorMessage.append(" and ");
+			}
+			validationError = true;
+			validationErrorMessage.append("enter a Business ID");
+		}*/
+		
+		validationErrorMessage.append(".");
+		
+		//if error display it
+		if(validationError){
+			Toast.makeText(MainActivity.this,validationErrorMessage.toString() , Toast.LENGTH_LONG).show();
+			return;
+		}
+		
+
+		//validation passed no to sign up 
+		final ProgressDialog dlg = new ProgressDialog(MainActivity.this);
+		dlg.setTitle("Please wait.");
+		dlg.setMessage("Loging in. Please Wait.");
+		dlg.show();
+		
+		ParseUser.logInInBackground(userName.getText().toString(), userPassword.getText().toString(), new LogInCallback() {
+		      @Override
+		      public void done(ParseUser user, com.parse.ParseException e) {
+		        dlg.dismiss();
+		        if (e != null) {
+		          // Show the error message
+		          Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+		        } else {
+		          // Start an intent for the dispatch activity
+		          Intent intent = new Intent(MainActivity.this, DispatchActivity.class);
+		          intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+		          startActivity(intent);
+		        }
+		      }
+		    });
     }
     
     public void GPSClick(View view){

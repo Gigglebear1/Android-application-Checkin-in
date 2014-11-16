@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/Qr_code"
+        android:layout_below="@+id/Qr_Phrase"
         android:layout_marginTop="26dp"
         android:text="Address" />
 
@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/textView1"
-        android:layout_below="@+id/Gps"
+        android:layout_below="@+id/address"
         android:layout_marginTop="21dp"
         android:text="GPS fence range" />
 
@@ -48,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/AddJobButton"
-        android:layout_toLeftOf="@+id/Gps"
+        android:layout_toLeftOf="@+id/address"
         android:src="@drawable/abc_ab_bottom_solid_dark_holo"
         android:visibility="invisible" />
 
@@ -64,12 +64,12 @@
         android:singleLine="true" />
 
     <EditText
-        android:id="@+id/Qr_code"
+        android:id="@+id/Qr_Phrase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/textView1"
         android:layout_alignBottom="@+id/textView1"
-        android:layout_alignLeft="@+id/Gps"
+        android:layout_alignLeft="@+id/address"
         android:ems="10"
         android:singleLine="true" >
 
@@ -82,12 +82,12 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/textView4"
         android:layout_alignBottom="@+id/textView4"
-        android:layout_alignLeft="@+id/Qr_code"
+        android:layout_alignLeft="@+id/Qr_Phrase"
         android:ems="10"
         android:singleLine="true" />
 
     <EditText
-        android:id="@+id/Gps"
+        android:id="@+id/address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/textView2"
@@ -98,11 +98,11 @@
         android:singleLine="true" />
 
     <EditText
-        android:id="@+id/Fence_range"
+        android:id="@+id/range"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/textView3"
-        android:layout_alignLeft="@+id/Gps"
+        android:layout_alignLeft="@+id/address"
         android:ems="10"
         android:inputType="number"
         android:singleLine="true" />
@@ -111,7 +111,7 @@
         android:id="@+id/time_to"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/Fence_range"
+        android:layout_below="@+id/range"
         android:layout_toRightOf="@+id/VeiwJobSite"
         android:ems="10"
         android:inputType="time" />
@@ -122,7 +122,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/time_to"
         android:layout_alignBottom="@+id/time_to"
-        android:layout_alignLeft="@+id/Fence_range"
+        android:layout_alignLeft="@+id/range"
         android:layout_toLeftOf="@+id/time_to"
         android:ems="10"
         android:inputType="time" />

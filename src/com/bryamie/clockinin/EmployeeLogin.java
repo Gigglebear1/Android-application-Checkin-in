@@ -1,17 +1,19 @@
 package com.bryamie.clockinin;
 
-import com.google.zxing.qrcode.encoder.QRCode;
-
 import android.app.AlertDialog;
-import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import com.parse.ParseUser;
 
 public class EmployeeLogin extends ActionBarActivity {
 	private AlertDialog.Builder dialogBuilder;
@@ -28,9 +30,18 @@ public class EmployeeLogin extends ActionBarActivity {
 		getMenuInflater().inflate(R.menu.employee_login, menu);
 		return true;
 	}
+	  public void employeeLogoutClick(View view){
+		  ParseUser.logOut();
+		  Intent intent = new Intent(this, MainActivity.class);
+		  startActivity(intent);
+	    }
+	  
+	  
 	
   public void CheckinClick(View view){
     	//put the stuff for scanner
+	  
+	
 	  Intent intent = new Intent("com.google.zxing.client.android.SCAN");
 	  intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
 	  startActivityForResult(intent, 0);

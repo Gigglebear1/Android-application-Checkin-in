@@ -26,10 +26,17 @@ public class DispatchActivity extends Activity {
     // Check if there is current user info
     if (ParseUser.getCurrentUser() != null) {
       // Start an intent for the logged in activity
-    	
     	//need to get weather they are an employee or manager to send them to correct view
+    	String classification = (String) ParseUser.getCurrentUser().get("Classification");
     	
-      startActivity(new Intent(this, Manager_login.class));
+    	if(classification.equals("Manager")){
+    		startActivity(new Intent(this, Manager_login.class));
+    	}
+    	else{
+    		startActivity(new Intent(this, EmployeeLogin.class));
+    	}
+    	
+      
     } else {
       // Start and intent for the logged out activity
       startActivity(new Intent(this, MainActivity.class));

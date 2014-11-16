@@ -13,11 +13,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
 public class ManageJob extends Activity {
 	private static Spinner sItems;
 	private static List<String> spinnerArray;
 	private static ArrayAdapter<String> adapter;
-	
+	private static String bizID;
 
 
 	@Override
@@ -28,13 +35,35 @@ public class ManageJob extends Activity {
 		//fill spinner
 		sItems = (Spinner) findViewById(R.id.spinner1);
 		spinnerArray =  new ArrayList<String>();
-		
 		spinnerArray.add("Select Job");
-		for(int i =0; i<20;i++){
-        	String istr = Integer.toString(i);
-        	spinnerArray.add("Job :"+ istr);
-        }
-
+		
+		bizID = (String) ParseUser.getCurrentUser().get("businessID");
+		
+		/*
+		 * fill the spinner array with job titles under that businessID 
+		 */
+		 ParseQuery<ParseObject> jobList = ParseQuery.getQuery("Jobsite");
+			jobList.whereEqualTo("businessID", bizID);
+			jobList.findInBackground(new FindCallback<ParseObject>() {
+			    public void done(List<ParseObject> spinnerList, com.parse.ParseException e) {
+			        if (e == null) {
+			        	ArrayList<ParseObject> arraylist = new ArrayList<ParseObject>(spinnerList);
+			        	for (ParseObject element : spinnerList) {
+			        		spinnerArray.add((String) element.get("jobName"));
+			        		
+		        		if(spinnerArray.size() <= 1){
+		        			spinnerArray.removeAll(spinnerArray);
+				        	spinnerArray.add("No jobs avaliable");
+		        		}
+			        }
+			        	
+			        } else {
+			        	spinnerArray.removeAll(spinnerArray);
+			        	spinnerArray.add("No jobs avaliable");
+			        }
+			    }
+			});
+		
 		 adapter = new ArrayAdapter<String>(
 		    this, android.R.layout.simple_spinner_item, spinnerArray);
 
@@ -43,14 +72,33 @@ public class ManageJob extends Activity {
 	}
 
 	public void DeleteJobClick(View view){
-		String selected = sItems.getSelectedItem().toString();
+		final String selected = sItems.getSelectedItem().toString();
 		int position = adapter.getPosition(selected);
 		
 		//remove from database then ...
 		
 		if(position > 0){
-		    adapter.remove(selected);
-		    adapter.notifyDataSetChanged();
+			
+			ParseQuery<ParseObject> query = ParseQuery.getQuery("Jobsite");
+			query.whereEqualTo("businessID", bizID);
+			query.whereEqualTo("jobName", selected);
+			query.getFirstInBackground(new GetCallback<ParseObject>() {
+				public void done(ParseObject object, com.parse.ParseException e) {
+					if(object != null){
+						try {
+							object.delete();
+							adapter.remove(selected);
+							 adapter.notifyDataSetChanged();
+						} catch (ParseException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						 
+					}
+				}
+			});
+		   
+		    
 		    Toast.makeText(getBaseContext(),selected+" Deleted" , Toast.LENGTH_LONG).show();
 		   }
 		else{
@@ -59,8 +107,17 @@ public class ManageJob extends Activity {
 	}
 	
 	public void EditJobClick(View view){
-		Intent intent = new Intent(this, EditJob.class);
-    	startActivity(intent);
+		String selected = sItems.getSelectedItem().toString();
+		int position = adapter.getPosition(selected);
+		
+		if(position > 0){
+			Intent intent = new Intent(this, EditJob.class);
+			intent.putExtra("jobName", selected);
+	    	startActivity(intent);
+		   }
+		else{
+			Toast.makeText(getBaseContext(),"Select job" , Toast.LENGTH_LONG).show();
+		}
 	}
     
 	
@@ -72,23 +129,46 @@ public class ManageJob extends Activity {
 	}
 	
 	public void AddEmployeeClick(View view){
-    	Intent intent = new Intent(this, AddEmployee.class);
-    	startActivity(intent);
+		String selected = sItems.getSelectedItem().toString();
+		int position = adapter.getPosition(selected);
+		
+		if(position > 0){
+			Intent intent = new Intent(this, AddEmployee.class);
+			intent.putExtra("jobName", selected);
+	    	startActivity(intent);
+		   }
+		else{
+			Toast.makeText(getBaseContext(),"Select job" , Toast.LENGTH_LONG).show();
+		}
+		
+    	
     }
 	
 	public void TimeCardClick(View view){
-    	Intent intent = new Intent(this, TimeCards.class);
+		Intent intent = new Intent(this, TimeCards.class);
     	startActivity(intent);
+	
+    	
     }
 
 	public void DeleteEmployeeClick(View view){
-    	Intent intent = new Intent(this, DeleteEmployee.class);
-    	startActivity(intent);
+		String selected = sItems.getSelectedItem().toString();
+		int position = adapter.getPosition(selected);
+		
+		if(position > 0){
+			Intent intent = new Intent(this, DeleteEmployee.class);
+			intent.putExtra("jobName", selected);
+	    	startActivity(intent);
+		   }
+		else{
+			Toast.makeText(getBaseContext(),"Select job" , Toast.LENGTH_LONG).show();
+		}
+    	
     }
 	
 	public void EditEmployee(View view){
-    	Intent intent = new Intent(this, ManageEmployee.class);
-    	startActivity(intent);
+			Intent intent = new Intent(this, ManageEmployee.class);
+	    	startActivity(intent);
     }
 	
 

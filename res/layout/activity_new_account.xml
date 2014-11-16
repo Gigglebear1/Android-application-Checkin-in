@@ -114,7 +114,7 @@
         android:ems="10" />
 
     <EditText
-        android:id="@+id/tb_passwordAgain"
+        android:id="@+id/firstName1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/tb_businessID"
@@ -126,7 +126,7 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tb_passwordAgain"
+        android:layout_below="@+id/firstName1"
         android:layout_centerHorizontal="true"
         android:text="Confirm Password" 
         android:imeActionId="@+id/edittext_action_signup"

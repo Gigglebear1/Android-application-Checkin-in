@@ -5,11 +5,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.EnumMap;
 import java.util.List;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -35,15 +37,84 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseGeoPoint;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 public class EditJob extends ActionBarActivity {
 
-	private AlertDialog.Builder dialogBuilder;
+private AlertDialog.Builder dialogBuilder;
+private EditText email;
+private EditText addr;
+private String addrstr;
+private EditText range;
+private String gpsrange;
+private EditText jobText;
+private String jobTitle;
+private EditText dateofEvent;
+private String date;
+private EditText timeText;
+private String timeFrom;
+private EditText timeText2;
+private String timeTo;
+private EditText QR_string;
+public static String jobTitlein;
+public static String bizID;
+public static ParseGeoPoint point;
+public static String ID;
+
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_job);
+		email = (EditText)findViewById(R.id.EmailIn);
+		String emailstr = (String) ParseUser.getCurrentUser().get("email");
+		email.setText(emailstr);
+		
+		addr = (EditText)findViewById(R.id.address);
+		 addrstr = addr.getText().toString();
+		 range = (EditText)findViewById(R.id.range);
+		 gpsrange = range.getText().toString();
+		 jobText = (EditText)findViewById(R.id.Job_title);
+		 jobTitle = jobText.getText().toString();
+		 dateofEvent = (EditText)findViewById(R.id.dateOfJob);
+		 date = dateofEvent.getText().toString();
+		 timeText = (EditText)findViewById(R.id.time_from);
+		 timeFrom = timeText.getText().toString();
+		 timeText2 = (EditText)findViewById(R.id.time_to);
+		 timeTo = timeText2.getText().toString();
+		 QR_string   = (EditText)findViewById(R.id.Qr_Phrase);
+		
+		
+		jobTitlein = getIntent().getExtras().getString("jobName");
+		bizID = (String) ParseUser.getCurrentUser().get("businessID");
+		
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("Jobsite");
+		query.whereEqualTo("businessID", bizID);
+		query.whereEqualTo("jobName", jobTitlein);
+		query.getFirstInBackground(new GetCallback<ParseObject>() {
+			public void done(ParseObject object, com.parse.ParseException e) {
+				if(object != null){
+					addr.setText(object.get("address").toString());
+					 range.setText(object.get("gpsFence").toString());
+					 jobText.setText(object.get("jobName").toString());
+					 dateofEvent.setText(object.get("date").toString());
+					 timeText.setText(object.get("timeFrom").toString());
+					 timeText2.setText(object.get("timeTo").toString());
+					 QR_string.setText(object.get("qrPhrase").toString());
+				  
+	        	}
+			}
+		});
+		 
+		
+		
+		
 	}
 
 	@Override
@@ -137,9 +208,8 @@ public class EditJob extends ActionBarActivity {
 	}
 	 	
 	public void saveJobClick(View view){
-		EditText QR_string;
+		
 		Bitmap QrCode;
-		EditText email;
 		String emailString;
 		
 		//get email remove white space and non visible chars like \n
@@ -147,34 +217,25 @@ public class EditJob extends ActionBarActivity {
 		emailString = email.getText().toString();
 		emailString = emailString.replaceAll("\\s+","");
 		
-		
-		/*
-		 * TODO: need to auto fill these from database
-		 */
-		
-		EditText addr = (EditText)findViewById(R.id.Gps);
-		final String addrstr = addr.getText().toString();
-		EditText range = (EditText)findViewById(R.id.Fence_range);
-		String gpsrange = range.getText().toString();
-		EditText jobText = (EditText)findViewById(R.id.Job_title);
-		String jobTitle = jobText.getText().toString();
-		EditText dateofEvent = (EditText)findViewById(R.id.dateOfJob);
-		String date = dateofEvent.getText().toString();
-		EditText timeText = (EditText)findViewById(R.id.time_from);
-		String timeFrom = timeText.getText().toString();
-		EditText timeText2 = (EditText)findViewById(R.id.time_to);
-		String timeTo = timeText2.getText().toString();
-		
-		
-		
+		 addr = (EditText)findViewById(R.id.address);
+		 addrstr = addr.getText().toString();
+		 range = (EditText)findViewById(R.id.range);
+		 gpsrange = range.getText().toString();
+		 jobText = (EditText)findViewById(R.id.Job_title);
+		 jobTitle = jobText.getText().toString();
+		 dateofEvent = (EditText)findViewById(R.id.dateOfJob);
+		 date = dateofEvent.getText().toString();
+		 timeText = (EditText)findViewById(R.id.time_from);
+		 timeFrom = timeText.getText().toString();
+		 timeText2 = (EditText)findViewById(R.id.time_to);
+		 timeTo = timeText2.getText().toString();
 		
 		//get the string and then encode it 
-		QR_string   = (EditText)findViewById(R.id.Qr_code);
+		QR_string   = (EditText)findViewById(R.id.Qr_Phrase);
 		
 		//make sure all info is filled in 
 		if(!TextUtils.isEmpty(QR_string.getText().toString()) && !TextUtils.isEmpty(addrstr) && !TextUtils.isEmpty(gpsrange) && !TextUtils.isEmpty(jobTitle) && !TextUtils.isEmpty(date) &&
 				!TextUtils.isEmpty(timeFrom) && !TextUtils.isEmpty(timeTo) && !TextUtils.isEmpty(gpsrange)){
-			
 			
 			
 			final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox1);
@@ -198,6 +259,42 @@ public class EditJob extends ActionBarActivity {
 			//check to see if valid date
 			String inputDate = dateElement[2] + "-" + dateElement[0] + "-" + dateElement[1];
 			Boolean isVaildDay = isLegalDate(inputDate);
+			
+			
+//time validate check
+			
+			try{
+				Integer.parseInt(timeFrom);
+				Integer.parseInt(timeTo);
+			}
+			catch(Throwable e ){
+				 Toast.makeText(getBaseContext()," Invaild Time format\n milt time = ####", Toast.LENGTH_LONG).show();
+				 return;
+			}
+			
+			Boolean fromFlag = true;
+			Boolean toFlag = true;
+			Boolean timeWrong = false;
+			if(Integer.parseInt(timeFrom) <= 0000 || Integer.parseInt(timeFrom) > 2400 ||Integer.parseInt(timeFrom)%100 > 59 )
+				fromFlag = false;
+			if(Integer.parseInt(timeTo) <= 0000 || Integer.parseInt(timeTo) > 2400 || Integer.parseInt(timeTo)%100 > 59)
+				toFlag = false;
+			if(Integer.parseInt(timeTo) <= Integer.parseInt(timeFrom)){
+				timeWrong = true;
+			}
+			
+			if(!fromFlag){
+				Toast.makeText(getBaseContext(),"From time is incorrect time format", Toast.LENGTH_LONG).show();
+				return;
+			}
+			if(!toFlag){
+				Toast.makeText(getBaseContext(),"To time is incorrect time format", Toast.LENGTH_LONG).show();
+				return;
+			}
+			if(timeWrong){
+				Toast.makeText(getBaseContext(),"From time is larger that To time", Toast.LENGTH_LONG).show();
+				return;
+				}
 			
 			
 			//make sure that date has not passed
@@ -254,43 +351,6 @@ public class EditJob extends ActionBarActivity {
 				 return;
 			}
 			
-			
-			//time validate check
-			
-			try{
-				Integer.parseInt(timeFrom);
-				Integer.parseInt(timeTo);
-			}
-			catch(Throwable e ){
-				 Toast.makeText(getBaseContext()," Invaild Time format\n milt time = ####", Toast.LENGTH_LONG).show();
-				 return;
-			}
-			
-			Boolean fromFlag = true;
-			Boolean toFlag = true;
-			Boolean timeWrong = false;
-			if(Integer.parseInt(timeFrom) <= 0000 || Integer.parseInt(timeFrom) > 2400)
-				fromFlag = false;
-			if(Integer.parseInt(timeTo) <= 0000 || Integer.parseInt(timeTo) > 2400)
-				toFlag = false;
-			if(Integer.parseInt(timeTo) <= Integer.parseInt(timeFrom)){
-				timeWrong = true;
-			}
-			
-			if(!fromFlag){
-				Toast.makeText(getBaseContext(),"From time is incorrect time format", Toast.LENGTH_LONG).show();
-				return;
-			}
-			if(!toFlag){
-				Toast.makeText(getBaseContext(),"To time is incorrect time format", Toast.LENGTH_LONG).show();
-				return;
-			}
-			if(timeWrong){
-				Toast.makeText(getBaseContext(),"From time is larger that To time", Toast.LENGTH_LONG).show();
-				return;
-				}
-			
-			
 			if (checkBox.isChecked()) {
 				if (!TextUtils.isEmpty(emailString)){
 						QrCode = encode(QR_string.getText().toString());
@@ -305,13 +365,72 @@ public class EditJob extends ActionBarActivity {
 				QrCode = encode(QR_string.getText().toString());
 			}
 			
+			
+			//get geopoint for address
+			
+			
+			GeoPoint p11;
+			try {
+				p11 = getLocationFromAddress(addrstr);
+			}
+			catch(Throwable e ){
+				dialogBuilder = new AlertDialog.Builder(this);
+		         dialogBuilder.setTitle("Location not found");
+		         dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						Toast.makeText(getApplicationContext(), "Location not found", Toast.LENGTH_SHORT);
+					}
+				});
+				AlertDialog dialogPopUp = dialogBuilder.create();
+		        dialogPopUp.show();
+		        return;
+			}
+			
+			point = new ParseGeoPoint((p11.getLatitudeE6()/ 1E6), p11.getLongitudeE6()/ 1E6);
+			
+			//get users business ID
+			 bizID = (String) ParseUser.getCurrentUser().get("businessID");
+			
 			/*all is validated ship to data bases
 			 * put stuff here
 			 * 
-			 * 
-			 * 
-			 * 
 			 */
+			 ParseQuery<ParseObject> jobList = ParseQuery.getQuery("Jobsite");
+				jobList.whereEqualTo("businessID", bizID);
+				jobList.whereEqualTo("jobName", jobTitlein);
+				jobList.findInBackground(new FindCallback<ParseObject>() {
+				    public void done(List<ParseObject> site, com.parse.ParseException e) {
+				        if (e == null) {
+				        	ParseObject other = site.get(0);
+				        	ID = other.getObjectId().toString();
+				        }
+				    }
+				});
+			
+			 ParseQuery<ParseObject> query = ParseQuery.getQuery("Jobsite");
+			   query.getInBackground(ID, new GetCallback<ParseObject>() {
+				   public void done(ParseObject jobObject, com.parse.ParseException e) {
+				     if (e == null) {
+						ParseObject jobSite = new ParseObject("Jobsite");
+						jobObject.put("address", addrstr);
+						jobObject.put("date", date);
+						jobObject.put("gpsFence", Integer.parseInt(gpsrange));
+						jobObject.put("qrPhrase", QR_string.getText().toString());
+						jobObject.put("timeFrom", Integer.parseInt(timeFrom));
+						jobObject.put("timeTo", Integer.parseInt(timeTo));
+						jobObject.put("geoPoint",point);	
+						jobObject.put("jobName",jobTitle);
+						jobObject.put("businessID",bizID);
+						jobObject.saveInBackground();
+						
+						
+						Toast.makeText(getBaseContext(),"Job Site Saved", Toast.LENGTH_LONG).show();
+				     }
+				   }
+				   });
 			
 			
 			
@@ -349,7 +468,7 @@ public class EditJob extends ActionBarActivity {
 		try {
 		    address = coder.getFromLocationName(strAddress,5);
 		    if (address == null) {
-		        return null;
+		        return p1;
 		    }
 		    Address location = address.get(0);
 		    location.getLatitude();
@@ -366,12 +485,12 @@ public class EditJob extends ActionBarActivity {
 	
 	public void ViewJobSiteButtonClick(View view) throws IOException{
 		
-		EditText addr = (EditText)findViewById(R.id.Gps);
+		EditText addr = (EditText)findViewById(R.id.address);
 		final String str = addr.getText().toString();
 		try{
 			GeoPoint p1 = getLocationFromAddress(str);
 			
-			EditText range = (EditText)findViewById(R.id.Fence_range);
+			EditText range = (EditText)findViewById(R.id.range);
 			double gpsrange = Double.parseDouble(range.getText().toString());	
 			
 			double lat = (p1.getLatitudeE6()/ 1E6);
@@ -396,11 +515,10 @@ public class EditJob extends ActionBarActivity {
 			});
 			AlertDialog dialogPopUp = dialogBuilder.create();
 	        dialogPopUp.show();
-		}
-		
-		
-		
+		}	
     }
+	
+	
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -413,6 +531,7 @@ public class EditJob extends ActionBarActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
 
 	
 }

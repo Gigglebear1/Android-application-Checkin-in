@@ -8,54 +8,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.bryamie.clockinin.MainActivity" >
 
-    <EditText
-        android:id="@+id/Gps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/Qr_code"
-        android:layout_below="@+id/Qr_code"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:text="Password" />
-
-    <EditText
-        android:id="@+id/Fence_range"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Gps"
-        android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:text="Busniess ID" />
-
-    <EditText
-        android:id="@+id/Qr_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/Fence_range"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="34dp"
-        android:ems="10"
-        android:text="Username" />
-
-    <Button
-        android:id="@+id/TempLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Fence_range"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="21dp"
-        android:onClick="TempLoginClick"
-        android:text="Temp login to employee view" />
-
-    <Button
-        android:id="@+id/Login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/TempLogin"
-        android:layout_centerHorizontal="true"
-        android:onClick="nextListener"
-        android:text="Login" />
-
     <Button
         android:id="@+id/new_job_site"
         android:layout_width="wrap_content"
@@ -64,5 +16,37 @@
         android:layout_centerHorizontal="true"
         android:onClick="GPSClick"
         android:text="Create New Account" />
+
+    <EditText
+        android:id="@+id/userPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userName"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/Login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userPassword"
+        android:layout_centerHorizontal="true"
+        android:onClick="LoginClick"
+        android:text="Login" />
+
+    <EditText
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="62dp"
+        android:ems="10"
+        android:hint="Username" />
 
 </RelativeLayout>

@@ -10,6 +10,7 @@ import java.util.EnumMap;
 import java.util.List;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,7 +21,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
-import android.text.format.DateFormat;
 import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,15 +36,23 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.parse.ParseGeoPoint;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 public class QrSite extends ActionBarActivity {
 
 private AlertDialog.Builder dialogBuilder;
+EditText email;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_qr_site);
+		email = (EditText)findViewById(R.id.EmailIn);
+		String emailstr = (String) ParseUser.getCurrentUser().get("email");
+		email.setText(emailstr);
+		
 	}
 
 	@Override
@@ -140,7 +148,6 @@ private AlertDialog.Builder dialogBuilder;
 	public void saveJobClick(View view){
 		EditText QR_string;
 		Bitmap QrCode;
-		EditText email;
 		String emailString;
 		
 		//get email remove white space and non visible chars like \n
@@ -148,9 +155,9 @@ private AlertDialog.Builder dialogBuilder;
 		emailString = email.getText().toString();
 		emailString = emailString.replaceAll("\\s+","");
 		
-		EditText addr = (EditText)findViewById(R.id.Gps);
-		final String addrstr = addr.getText().toString();
-		EditText range = (EditText)findViewById(R.id.Fence_range);
+		EditText addr = (EditText)findViewById(R.id.address);
+		String addrstr = addr.getText().toString();
+		EditText range = (EditText)findViewById(R.id.range);
 		String gpsrange = range.getText().toString();
 		EditText jobText = (EditText)findViewById(R.id.Job_title);
 		String jobTitle = jobText.getText().toString();
@@ -161,11 +168,8 @@ private AlertDialog.Builder dialogBuilder;
 		EditText timeText2 = (EditText)findViewById(R.id.time_to);
 		String timeTo = timeText2.getText().toString();
 		
-		
-		
-		
 		//get the string and then encode it 
-		QR_string   = (EditText)findViewById(R.id.Qr_code);
+		QR_string   = (EditText)findViewById(R.id.Qr_Phrase);
 		
 		//make sure all info is filled in 
 		if(!TextUtils.isEmpty(QR_string.getText().toString()) && !TextUtils.isEmpty(addrstr) && !TextUtils.isEmpty(gpsrange) && !TextUtils.isEmpty(jobTitle) && !TextUtils.isEmpty(date) &&
@@ -285,12 +289,6 @@ private AlertDialog.Builder dialogBuilder;
 				 return;
 			}
 			
-			
-			
-			
-			
-			
-			
 			if (checkBox.isChecked()) {
 				if (!TextUtils.isEmpty(emailString)){
 						QrCode = encode(QR_string.getText().toString());
@@ -306,17 +304,55 @@ private AlertDialog.Builder dialogBuilder;
 			}
 			
 			
+			//get geopoint for address
 			
 			
+			GeoPoint p11;
+			try {
+				p11 = getLocationFromAddress(addrstr);
+			}
+			catch(Throwable e ){
+				dialogBuilder = new AlertDialog.Builder(this);
+		         dialogBuilder.setTitle("Location not found");
+		         dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						Toast.makeText(getApplicationContext(), "Location not found", Toast.LENGTH_SHORT);
+					}
+				});
+				AlertDialog dialogPopUp = dialogBuilder.create();
+		        dialogPopUp.show();
+		        return;
+			}
 			
+			ParseGeoPoint point = new ParseGeoPoint((p11.getLatitudeE6()/ 1E6), p11.getLongitudeE6()/ 1E6);
+			
+			//get users business ID
+			String bizID = (String) ParseUser.getCurrentUser().get("businessID");
 			
 			/*all is validated ship to data bases
 			 * put stuff here
 			 * 
-			 * 
-			 * 
-			 * 
 			 */
+			ParseObject jobSite = new ParseObject("Jobsite");
+			jobSite.put("address", addrstr);
+			jobSite.put("date", date);
+			jobSite.put("gpsFence", Integer.parseInt(gpsrange));
+			jobSite.put("qrPhrase", QR_string.getText().toString());
+			jobSite.put("timeFrom", Integer.parseInt(timeFrom));
+			jobSite.put("timeTo", Integer.parseInt(timeTo));
+			jobSite.put("geoPoint",point);	
+			jobSite.put("jobName",jobTitle);
+			jobSite.put("businessID",bizID);
+			jobSite.saveInBackground();
+			
+			
+			Toast.makeText(getBaseContext(),"Job Site Saved", Toast.LENGTH_LONG).show();
+			
+			
+			
 			
 		}
 		else{
@@ -352,7 +388,7 @@ private AlertDialog.Builder dialogBuilder;
 		try {
 		    address = coder.getFromLocationName(strAddress,5);
 		    if (address == null) {
-		        return null;
+		        return p1;
 		    }
 		    Address location = address.get(0);
 		    location.getLatitude();
@@ -369,12 +405,12 @@ private AlertDialog.Builder dialogBuilder;
 	
 	public void ViewJobSiteButtonClick(View view) throws IOException{
 		
-		EditText addr = (EditText)findViewById(R.id.Gps);
+		EditText addr = (EditText)findViewById(R.id.address);
 		final String str = addr.getText().toString();
 		try{
 			GeoPoint p1 = getLocationFromAddress(str);
 			
-			EditText range = (EditText)findViewById(R.id.Fence_range);
+			EditText range = (EditText)findViewById(R.id.range);
 			double gpsrange = Double.parseDouble(range.getText().toString());	
 			
 			double lat = (p1.getLatitudeE6()/ 1E6);
@@ -399,11 +435,10 @@ private AlertDialog.Builder dialogBuilder;
 			});
 			AlertDialog dialogPopUp = dialogBuilder.create();
 	        dialogPopUp.show();
-		}
-		
-		
-		
+		}	
     }
+	
+	
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
