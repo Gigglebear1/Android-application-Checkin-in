@@ -21,7 +21,7 @@
         android:layout_alignRight="@+id/view_timeCards" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/view_timeCards"
@@ -34,7 +34,7 @@
         android:id="@+id/employeeListView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@+id/status"
         android:layout_centerHorizontal="true" >
 
     </ListView>

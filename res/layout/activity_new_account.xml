@@ -18,7 +18,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tb_userName"
@@ -47,7 +47,7 @@
         android:id="@+id/tb_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@+id/status"
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:inputType="textEmailAddress" />

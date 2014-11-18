@@ -10,7 +10,6 @@ import java.util.EnumMap;
 import java.util.List;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -263,7 +262,7 @@ EditText email;
 				String[] ampm = currTime.split(" ");
 				String[] parts= ampm[0].split(":");
 				int miltTime;
-				if (ampm[1] == "AM"){
+				if (ampm[1].equals("AM")){
 					miltTime = Integer.parseInt(parts[0])*100 + Integer.parseInt(parts[1]);
 				}
 				else{
@@ -340,9 +339,9 @@ EditText email;
 			jobSite.put("address", addrstr);
 			jobSite.put("date", date);
 			jobSite.put("gpsFence", Integer.parseInt(gpsrange));
-			jobSite.put("qrPhrase", QR_string.getText().toString());
 			jobSite.put("timeFrom", Integer.parseInt(timeFrom));
 			jobSite.put("timeTo", Integer.parseInt(timeTo));
+			jobSite.put("qrPhrase", QR_string.getText().toString());
 			jobSite.put("geoPoint",point);	
 			jobSite.put("jobName",jobTitle);
 			jobSite.put("businessID",bizID);

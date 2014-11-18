@@ -127,6 +127,64 @@ public class ManageEmployee extends Activity {
 		    } 
 		}); 
 	}
+	
+	public String checkError(){
+		// used for input validation
+				boolean isError = false;
+				String errorMsg = "";
+				
+				bizID = (String) ParseUser.getCurrentUser().get("businessID");
+				
+				firstName = (EditText) findViewById(R.id.firstName1);
+				// check for alphabetical characters only
+				if (!(firstName.toString().matches("[a-zA-Z]+"))){
+					isError = true;
+					errorMsg += "First name can only be alphabetical characters. | ";
+				} // end if
+				
+				lastName = (EditText) findViewById(R.id.lastName1);
+				// check for alphabetical characters only
+				if (!(lastName.toString().matches("[a-zA-Z]+"))){
+					isError = true;
+					errorMsg += "Last name can only be alphabetical characters. | ";
+				} // end if
+				
+				employeeID = (EditText) findViewById(R.id.employeeIDedit);
+				email = (EditText) findViewById(R.id.EmailEdit);
+				phone = (EditText) findViewById(R.id.editPhone);
+				// check for numbers only
+				if (!(phone.toString().matches("[0-9]+"))){
+					isError = true;
+					errorMsg += "Phone number must be given as numbers only: e.g. 5557778888 | ";
+				} // end if
+				
+				pay = (EditText) findViewById(R.id.payRateEdit);
+				// check for numbers only
+				if (!(pay.toString().matches("[0-9.]+"))){
+					isError = true;
+					errorMsg += "Pay Rate must be given as numbers only: e.g. 9.50 | "; 
+				} // end if
+				
+				address = (EditText) findViewById(R.id.addressEdit);
+				apt = (EditText) findViewById(R.id.AptEdit);
+				
+				zip = (EditText) findViewById(R.id.zipEdit);
+				// check for 5 numbers
+				if (zip.toString().length() != 5 || !(zip.toString().matches("[0-9]+"))){
+					isError = true;
+					errorMsg += "Zipcode must be five (5) numbers: e.g. 01234 | ";
+				} // end if
+				city = (EditText) findViewById(R.id.City);
+				state = (EditText) findViewById(R.id.StateEdit);
+				password = (EditText) findViewById(R.id.passwordEdit);
+				
+				// if there was an error
+				if (isError){
+					return errorMsg;
+				}
+				else 
+					return "";
+	}
 
 	public void updateSpinner(){
 		ParseQuery<ParseObject> jobList = ParseQuery.getQuery("Employee");
@@ -171,6 +229,12 @@ public class ManageEmployee extends Activity {
  				!TextUtils.isEmpty(zip.getText().toString()) && !TextUtils.isEmpty(employeeID.getText().toString())){
 	 			
 		  String pass = ParseUser.getCurrentUser().getSessionToken(); 
+		  
+		  String error = checkError();
+		  if(error.length() > 0){
+			  Toast.makeText(getBaseContext(), error , Toast.LENGTH_LONG).show();
+			  return;
+		  }
 		  
  			
  		ParseUser AddUser = new ParseUser();
@@ -312,6 +376,13 @@ public class ManageEmployee extends Activity {
 	   if(iCurrentSelection > 0){
 		   ParseObject employee = spinnerList2.get( iCurrentSelection-1);
 		   String ID = employee.getObjectId().toString();
+		   
+		   String error = checkError();
+			  if(error.length() > 0){
+				  Toast.makeText(getBaseContext(), error , Toast.LENGTH_LONG).show();
+				  return;
+			  }
+			  
 		   
 		   ParseQuery<ParseObject> query = ParseQuery.getQuery("Employee");
 		   query.getInBackground(ID , new GetCallback<ParseObject>() {

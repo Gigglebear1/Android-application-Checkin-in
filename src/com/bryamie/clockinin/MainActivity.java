@@ -55,14 +55,7 @@ public class MainActivity extends Activity{
 			validationError = true;
 			validationErrorMessage.append("enter a password");
 		}
-		/*
-		if (isEmpty(userbuinessID)){
-			if(validationError){
-				validationErrorMessage.append(" and ");
-			}
-			validationError = true;
-			validationErrorMessage.append("enter a Business ID");
-		}*/
+	
 		
 		validationErrorMessage.append(".");
 		

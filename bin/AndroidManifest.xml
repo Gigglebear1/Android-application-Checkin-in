@@ -46,7 +46,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="Main Login"
             android:screenOrientation="portrait" >
-           
         </activity>
         <activity
             android:name="com.google.zxing.client.android.CaptureActivity"
@@ -66,16 +65,20 @@
             </intent-filter>
         </activity>
         
-         <activity android:name=".DispatchActivity"
-            android:label="Checkin' in">
-             <intent-filter>
+        <service
+            android:name=".backgroundCheck"
+            android:exported="false"/>
+        
+        <activity
+            android:name=".DispatchActivity"
+            android:label="Checkin&apos; in" >
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>>
+            </intent-filter>
+>
         </activity>
-        
-         
         <activity
             android:name=".Manager_login"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -169,7 +172,10 @@
             android:label="@string/title_activity_manage_employee"
             android:screenOrientation="portrait" >
         </activity>
-       
+        <activity
+            android:name=".ViewingTimeSheet"
+            android:label="@string/title_activity_viewing_time_sheet" >
+        </activity>
     </application>
 
 </manifest>

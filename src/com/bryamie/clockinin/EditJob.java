@@ -65,7 +65,7 @@ public static String jobTitlein;
 public static String bizID;
 public static ParseGeoPoint point;
 public static String ID;
-
+public static List<ParseObject> TimeCardObject;
 
 	
 	@Override
@@ -94,6 +94,7 @@ public static String ID;
 		jobTitlein = getIntent().getExtras().getString("jobName");
 		bizID = (String) ParseUser.getCurrentUser().get("businessID");
 		
+		
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Jobsite");
 		query.whereEqualTo("businessID", bizID);
 		query.whereEqualTo("jobName", jobTitlein);
@@ -107,6 +108,7 @@ public static String ID;
 					 timeText.setText(object.get("timeFrom").toString());
 					 timeText2.setText(object.get("timeTo").toString());
 					 QR_string.setText(object.get("qrPhrase").toString());
+					 ID = object.getObjectId();
 				  
 	        	}
 			}
@@ -325,7 +327,7 @@ public static String ID;
 				String[] ampm = currTime.split(" ");
 				String[] parts= ampm[0].split(":");
 				int miltTime;
-				if (ampm[1] == "AM"){
+				if (ampm[1].equals("AM")){
 					miltTime = Integer.parseInt(parts[0])*100 + Integer.parseInt(parts[1]);
 				}
 				else{
@@ -394,33 +396,50 @@ public static String ID;
 			//get users business ID
 			 bizID = (String) ParseUser.getCurrentUser().get("businessID");
 			
-			/*all is validated ship to data bases
-			 * put stuff here
-			 * 
-			 */
-			 ParseQuery<ParseObject> jobList = ParseQuery.getQuery("Jobsite");
-				jobList.whereEqualTo("businessID", bizID);
-				jobList.whereEqualTo("jobName", jobTitlein);
-				jobList.findInBackground(new FindCallback<ParseObject>() {
-				    public void done(List<ParseObject> site, com.parse.ParseException e) {
-				        if (e == null) {
-				        	ParseObject other = site.get(0);
-				        	ID = other.getObjectId().toString();
-				        }
-				    }
+			 
+		   /*
+		    * TODO with new jobname edit the time card table 
+		    */
+			 
+			 
+			 ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Employee");
+				query1.whereEqualTo("businessID", bizID);
+				query1.whereEqualTo("jobName", jobTitlein);
+				query1.findInBackground(new FindCallback<ParseObject>() {
+  			        public void done(List<ParseObject> timecardList, com.parse.ParseException e) {     
+				     if (e == null) {
+				    	 TimeCardObject=timecardList;
+				     }
+				   }
 				});
+				
+				for(ParseObject TimeSlot :TimeCardObject){
+					String ID2 = TimeSlot.getObjectId();
+					ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Employee");
+					   query2.getInBackground(ID2, new GetCallback<ParseObject>() {
+						   public void done(ParseObject TimeObject, com.parse.ParseException e) {
+						     if (e == null) {
+						    	 TimeObject.put("date",date); 	
+									TimeObject.put("jobName",jobTitle);
+									TimeObject.saveInBackground();
+						     }
+						   }
+						   
+					 });
+				}
+		 
+			 
 			
 			 ParseQuery<ParseObject> query = ParseQuery.getQuery("Jobsite");
 			   query.getInBackground(ID, new GetCallback<ParseObject>() {
 				   public void done(ParseObject jobObject, com.parse.ParseException e) {
 				     if (e == null) {
-						ParseObject jobSite = new ParseObject("Jobsite");
 						jobObject.put("address", addrstr);
 						jobObject.put("date", date);
-						jobObject.put("gpsFence", Integer.parseInt(gpsrange));
-						jobObject.put("qrPhrase", QR_string.getText().toString());
 						jobObject.put("timeFrom", Integer.parseInt(timeFrom));
 						jobObject.put("timeTo", Integer.parseInt(timeTo));
+						jobObject.put("gpsFence", Integer.parseInt(gpsrange));
+						jobObject.put("qrPhrase", QR_string.getText().toString());
 						jobObject.put("geoPoint",point);	
 						jobObject.put("jobName",jobTitle);
 						jobObject.put("businessID",bizID);
@@ -431,6 +450,8 @@ public static String ID;
 				     }
 				   }
 				   });
+			   
+			  
 			
 			
 			

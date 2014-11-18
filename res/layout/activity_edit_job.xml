@@ -17,7 +17,7 @@
         android:text="Job Title" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView4"
@@ -29,7 +29,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
+        android:layout_alignLeft="@+id/status"
         android:layout_below="@+id/Qr_Phrase"
         android:layout_marginTop="26dp"
         android:text="Address" />
@@ -38,7 +38,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/textView1"
+        android:layout_alignRight="@+id/status"
         android:layout_below="@+id/address"
         android:layout_marginTop="21dp"
         android:text="GPS fence range" />
@@ -67,8 +67,8 @@
         android:id="@+id/Qr_Phrase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView1"
-        android:layout_alignBottom="@+id/textView1"
+        android:layout_alignBaseline="@+id/status"
+        android:layout_alignBottom="@+id/status"
         android:layout_alignLeft="@+id/address"
         android:ems="10"
         android:singleLine="true" >

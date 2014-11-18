@@ -16,7 +16,7 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/firstName1"
@@ -28,8 +28,8 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView1"
-        android:layout_alignBottom="@+id/textView1"
+        android:layout_alignBaseline="@+id/status"
+        android:layout_alignBottom="@+id/status"
         android:layout_alignRight="@+id/lastName1"
         android:layout_marginRight="25dp"
         android:text="Last Name"
@@ -39,7 +39,7 @@
         android:id="@+id/TextView01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
+        android:layout_alignLeft="@+id/status"
         android:layout_below="@+id/employeeIDedit"
         android:text="Employee ID" />
 
@@ -180,7 +180,7 @@
         android:layout_height="wrap_content"
          android:singleLine="true"
         android:layout_alignLeft="@+id/firstName1"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@+id/status"
         android:ems="10" />
 
     <TextView
